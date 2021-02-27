@@ -9,8 +9,9 @@
 {% block content %}
 
 	<div class="post-entry">
-		<h2> {{custom.title}} </h2>
-		<p> {{custom.content}} </p>
+		<h2> {{object.title}} </h2>
+		<p> {{object.content}} </p>
 	</div>
+	<a href="{{object.get_absolute_url_update}}"> + Editar Postagem do Blog</a>
 
 {% endblock content %}
