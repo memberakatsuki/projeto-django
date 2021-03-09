@@ -20,18 +20,18 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='post',
-            name='created',
+            name='criado',
             field=models.DateTimeField(auto_now_add=True, default=datetime.datetime(2021, 2, 25, 10, 40, 26, 17702, tzinfo=utc)),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='post',
-            name='published',
+            name='publicado',
             field=models.DateTimeField(default=django.utils.timezone.now),
         ),
         migrations.AddField(
             model_name='post',
             name='status',
-            field=models.CharField(choices=[('draft', 'Draft'), ('published', 'Published')], default='draft', max_length=10),
+            field=models.CharField(choices=[('rascunho', 'Rascunho'), ('publicado', 'Publicado')], default='rascunho', max_length=10),
         ),
     ]

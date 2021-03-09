@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap %}
 
 {% block title %}
 
@@ -9,10 +10,10 @@
 {% block content %}
 
 	<h1>Deletar Postagem</h1>
-
-	<form action="" method="post">{% csrf_token %}
-		<p>Você tem certeza, que deseja excluir o registro "{{post.title}}"?</p>
-		<input type="submit" value="Confirmar">
+	<form action="" method="post">
+		{% csrf_token %}
+		<p>Você tem certeza, que deseja excluir o registro "{{post.titulo}}"?</p>
+		<input type="submit" value="Confirmar" class="btn btn-danger">
 			
 	</form>
 

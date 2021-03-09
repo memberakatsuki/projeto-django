@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView,DetailView,UpdateView,DeleteView
 from django.views.generic.edit import CreateView
@@ -5,8 +6,16 @@ from . models import Post
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from .forms import Postform
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
+
+@login_required
+def hello(request):
+	return HttpResponse('Óla Mundo')
 
 class BlogListView(ListView):
 	model = Post
@@ -17,31 +26,39 @@ class BlogDetailView(DetailView):
 	template_name = 'blog/post_detail.html'
 	#context_object_name = 'custom'
 
-class BlogCreateView(SuccessMessageMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
 	model = Post
 	template_name = 'blog/post_new.html'
-	fields = ('auth','title','content')
+	form_class = Postform
 	success_message = "%(field)s - Criado com Sucesso"
+
+	def form_valid(self, form):
+		obj = form.save(commit=False)
+		obj.autor = self.request.user
+		obj.save()
+		return super().form_valid(form)
+
 
 	def get_success_message(self, cleaned_data):
         	return self.success_message % dict(
         	cleaned_data,
-        	field=self.object.title,
+        	field=self.object.titulo,
         	)
 
-class BlogUpdateView(SuccessMessageMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
 	model = Post
+	form_class = Postform
 	template_name = 'blog/post_edit.html'
-	fields  = ('title','content')
+	#fields  = ('titulo','conteudo')
 	success_message = "%(field)s - Alterado com Sucesso"
 
 	def get_success_message(self, cleaned_data):
         	return self.success_message % dict(
         	cleaned_data,
-        	field=self.object.title,
+        	field=self.object.titulo,
         	)
 
-class BlogDeleteView(SuccessMessageMixin, DeleteView):
+class BlogDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
 	model = Post
 	template_name = 'blog/post_delete.html'
 	success_url = reverse_lazy('home')
