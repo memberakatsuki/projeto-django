@@ -28,7 +28,7 @@ django-js-asset==1.2.2
 
 django==3.1.9
 
-pillow==8.1.2
+pillow==8.2.0
 
 python-decouple==3.4
 
